@@ -18,7 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->string('photo');
             $table->string('name');
             $table->string('position');
-            $table->string('date');
+            $table->date('date');
             $table->string('phone');
             $table->string('email');
             $table->integer('salary');

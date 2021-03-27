@@ -28,4 +28,5 @@ Route::middleware(['role:admin'])->prefix('admin')->group(function (){
     Route::resource('positions', \App\Http\Controllers\AdminCRM\PositionController::class);
 
     Route::get('logout','Auth\LoginController@logout');
+    Route::post('/search', 'SearchController@filter');
 });

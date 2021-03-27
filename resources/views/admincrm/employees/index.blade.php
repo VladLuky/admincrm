@@ -47,22 +47,29 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('employees.index') }}" method="get">
-
+                    <form action="{{ route('employees.index') }}" method="GET">
                         <div class="row">
                             <div class="col-4">
                                 <h5>Name</h5>
-                                <input type="text" class="form-control" name="names" placeholder="name">
+                                <input type="text" class="form-control" name="names" placeholder="Name"
+                                       @if(isset($_GET['names']))
+                                       value="{{ $_GET['names'] }}"
+                                    @endif>
                             </div>
                             <div class="col-4">
                                 <h5>Position</h5>
-                                <select class="form-control" name="pos_name" >
+                                <select class="form-control" name="pos_names" >
                                     @if(empty($positions))
                                         <option value="Empty">Empty</option>
                                     @else
                                         <option></option>
                                         @foreach($positions as $position)
-                                            <option type="text" value="{{ $position['name'] }}">{{ $position['name'] }}</option>
+                                            <option type="text" value="{{ $position['name'] }}"
+                                            @if(isset($_GET['pos_names']))
+                                                @if($_GET['pos_names'] == $position['name'])
+                                                    selected
+                                                @endif
+                                            @endif>{{ $position['name'] }}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -74,7 +81,7 @@
                                         <p>Min:</p>
                                     </div>
                                     <div class="col">
-                                        <input name="min_data" type="date">
+                                        <input name="min_data" type="date" >
                                     </div>
                                 </div>
                                 <div class="row">
@@ -93,22 +100,41 @@
                         <div class="row">
                             <div class="col-4">
                                 <h5>Phone</h5>
-                                <input type="text" id="phone" name="phone" class="form-control" placeholder=".col-3">
+                                <input type="text" id="phone" name="phones" class="form-control" placeholder="Phone"
+                                       @if(isset($_GET['phones']))
+                                       value="{{ $_GET['phones'] }}"
+                                    @endif>
                             </div>
                             <div class="col-4">
                                 <h5>Email</h5>
-                                <input type="text" name="email" class="form-control" placeholder=".col-4">
+                                <input type="text" name="emails" class="form-control" placeholder=".col-4"
+                                       @if(isset($_GET['emails']))
+                                       value="{{ $_GET['emails'] }}"
+                                    @endif>
                             </div>
                             <div class="col-4">
-                                <h5>Salary</h5>
-                                <input type="text" name="salary" class="form-control" placeholder=".col-5">
+                                <h4>Salary</h4>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p>Min:</p>
+                                    </div>
+                                    <div class="col">
+                                        <input name="min_salary" type="number" min="0">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p>Max:</p>
+                                    </div>
+                                    <div class="col">
+                                        <input name="max_salary" type="number" min="0">
+                                    </div>
+                                </div>
                             </div>
+                            <button type="submit" class="btn btn-primary">Filter</button>
                         </div>
 
                     </form>
-                </div>
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -163,7 +189,7 @@
                                 {{ $emp['position'] }}
                             </td>
                             <td >
-                                {{ $emp['date'] }}
+
                             </td>
                             <td>
                                 {{ $emp['phone'] }}
@@ -232,41 +258,13 @@
 
 @section('link_script')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script type="application/javascript">
-        $(document).ready(function() {
-            $('table.projects').DataTable()({
-                "columnDefs": [
-                    { "orderable": false, "targets": 0 }
-                ],
-                "order": [],
-            });
-
-        } );
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"
             integrity="sha512-d4KkQohk+HswGs6A1d6Gak6Bb9rMWtxjOa0IiY49Q3TeFd5xAzjWXDCBW9RS7m86FQ4RzM2BdHmdJnnKRYknxw=="
             crossorigin="anonymous">
 
-    </script>
-    <script type="application/javascript">
-        $(document).ready(function(){
-            $("#phone").mask("+38(999)-999-99-99")
-        });
-    </script>
-    <script>
-        $('#delete').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var cat_id = button.data('catid')
-            var divinfo = document.getElementById('infotext')
-            var emp_name = button.data('emp_name')
-            var text = '<p>Delete \"' + emp_name + '\"</p>'
-            divinfo.innerHTML = text
-            var modal = $(this)
-            modal.find('.modal-body #cat_id').val(cat_id);
-        })
     </script>
 @endsection

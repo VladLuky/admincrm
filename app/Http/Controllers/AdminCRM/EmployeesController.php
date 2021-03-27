@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminCRM;
 
+use App\Filters\EmployeeFilter;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Position;
@@ -14,12 +15,13 @@ class EmployeesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param EmployeeFilter $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(EmployeeFilter $request)
     {
-        $employees = Employee::all();
+        $employees = Employee::filter($request)->get();
+        //dd($request);
         $positions = Position::all();
         return view('admincrm.employees.index', [
             'employees' => $employees,

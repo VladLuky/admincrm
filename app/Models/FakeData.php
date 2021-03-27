@@ -28,9 +28,7 @@ class FakeData extends Model
     function getDate(){
         $faker = Faker::create();
         $dt = $faker->dateTimeBetween('-10 years', 'now');
-        $date = $dt->format("d.m.Y");
-
-        return $date;
+        return $dt;
     }
 
     function getPhone(){
