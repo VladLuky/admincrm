@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 
 class FakeData extends Model
@@ -21,7 +21,7 @@ class FakeData extends Model
         $pos = DB::table('positions')->inRandomOrder()->first();
         $pos_name = $pos->name;
         $salary = $faker->numberBetween(10000, 500000);
-        $photo = $faker->imageUrl(640,640);
+        $photo = $faker->imageUrl(640, 640);
         return array($name, $date, $phone, $email, $pos_name, $salary, $photo);
     }
 

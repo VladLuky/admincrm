@@ -6,7 +6,8 @@
     <title>AdminCRM v.1 | @yield('title')</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/admincrm/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -26,7 +27,8 @@
     <!-- summernote -->
     <link rel="stylesheet" href="/admincrm/plugins/summernote/summernote-bs4.min.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     @yield('link_script')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -36,7 +38,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="index3.html" class="brand-link">
-            <img src="/admincrm/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <img src="/admincrm/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                 class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">AdminCRM v.1</span>
         </a>
 
@@ -54,7 +57,8 @@
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
                     <li class="nav-item">
                         <a href="{{route('admin')}}" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
@@ -103,9 +107,8 @@
             </form>
         </ul>
     </nav>
-    @yield('content')
-    <!-- /.content-wrapper -->
-
+@yield('content')
+<!-- /.content-wrapper -->
 
 
     <!-- Control Sidebar -->

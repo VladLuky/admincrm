@@ -6,9 +6,9 @@ use App\Filters\EmployeeFilter;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Position;
+use App\Rules\EmployeeValidation;
 use Illuminate\Http\Request;
 use Image;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class EmployeesController extends Controller
 {
@@ -21,7 +21,6 @@ class EmployeesController extends Controller
     public function index(EmployeeFilter $request)
     {
         $employees = Employee::filter($request)->get();
-        //dd($request);
         $positions = Position::all();
         return view('admincrm.employees.index', [
             'employees' => $employees,
@@ -37,7 +36,7 @@ class EmployeesController extends Controller
     public function create()
     {
         $positions = Position::all();
-        return view('admincrm.employees.create',[
+        return view('admincrm.employees.create', [
             'positions' => $positions,
         ]);
     }
@@ -45,18 +44,27 @@ class EmployeesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $employee = new Employee();
-        if ($request->hasFile('photo')){
-            $file = $request->file('photo');
-            $filename = time().'.'.$file->getClientOriginalExtension();
-            Image::make($file)->resize(300,300)->save(public_path('/images/'.$filename));
-            $employee->photo = $filename;
+        $request->validate([
+            'name' => ['bail', 'required', 'string', new EmployeeValidation()],
+            'email' => 'bail|required|email:rfc,dns',
+            'salary' => 'bail|required|numeric|min:0|max:500000',
+            'photo' => 'bail|required|mimes:jpg,png|max:5000|dimensions:min_width=300,min_height=300'
 
+        ]);
+
+        $employee = new Employee();
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time();
+            Image::make($file)
+                ->resize(300, 300)
+                ->save(public_path('/images/') . $filename . '.' . 'jpg', 80, 'jpg');
+            $employee->photo = $filename . '.jpg';
         }
         $employee->name = $request->get('name');
         $employee->position = $request->get('pos_name');
@@ -73,7 +81,7 @@ class EmployeesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Employee $employee
      * @return \Illuminate\Http\Response
      */
     public function show(Employee $employee)
@@ -84,17 +92,16 @@ class EmployeesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Employee $employee
      * @return \Illuminate\Http\Response
      */
     public function edit(Employee $employee)
     {
-        $positions = Position::distinct()->get('name')->where('name','!=',$employee['position']);
-        return view('admincrm.employees.edit',[
+        $positions = Position::distinct()->get('name')->where('name', '!=', $employee['position']);
+        return view('admincrm.employees.edit', [
             'positions' => $positions,
             'employee' => $employee,
         ]);
-
 
 
     }
@@ -102,20 +109,28 @@ class EmployeesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Employee  $employee
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Employee $employee
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Employee $employee)
     {
 
 
-        if ($request->hasFile('photo')){
-            $file = $request->file('photo');
-            $filename = time().'.'.$file->getClientOriginalExtension();
-            Image::make($file)->resize(300,300)->save(public_path('/images/'.$filename));
-            $employee->photo = $filename;
+        $request->validate([
+            'name' => ['bail', 'required', 'string', new EmployeeValidation()],
+            'email' => 'bail|required|email:rfc,dns',
+            'salary' => 'bail|required|numeric|min:0|max:500000',
+            'photo' => 'bail|required|mimes:jpg,png|max:5000|dimensions:min_width=300,min_height=300'
 
+        ]);
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '.' . 'jpg';
+            Image::make($file)
+                ->resize(300, 300)
+                ->save(public_path('/images/') . $filename, 80, 'jpg');
+            $employee->photo = $filename;
         }
         $employee->name = $request->get('name');
         $employee->position = $request->get('pos_name');

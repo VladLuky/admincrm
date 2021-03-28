@@ -37,13 +37,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Name</label>
-                                <input type="text" class="form-control" name="name" value="{{ $position['name'] }}" placeholder="Enter name">
+                                <input type="text" class="form-control" name="name" value="{{ $position['name'] }}"
+                                       placeholder="Enter name">
                             </div>
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            <button type="submit" value="submit" name="submitbutton" class="btn btn-primary">Submit</button>
+                            <button type="submit" value="submit" name="submitbutton" class="btn btn-primary">Submit
+                            </button>
                             <a class="btn btn-default btn-close" href="{{ route('positions.index') }}">Cancel</a>
                         </div>
 
@@ -54,7 +56,6 @@
             </div>
 
             <!-- /.card -->
-
 
 
         </section>

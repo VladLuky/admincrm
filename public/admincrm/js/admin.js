@@ -22,10 +22,7 @@ $('#delete').on('show.bs.modal', function (event) {
 
     $(document).ready(function() {
         $('table.projects').DataTable()({
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            "order": [],
+
         });
 
     } );

@@ -15,6 +15,16 @@
 
                     </div><!-- /.col -->
                 </div><!-- /.row -->
+                @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        @foreach($errors->all() as $error)
+                            {{ $error }}<br/>
+                        @endforeach
+                    </div>
+                @endif
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
@@ -67,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Date of employment</label>
-                                <input type="text" class="form-control" name="date" value="{{ $employee['date'] }}" placeholder="Enter date">
+                                <input type="date" class="form-control" name="date" value="{{ $employee['date'] }}" placeholder="Enter date">
                             </div>
                         </div>
                         <!-- /.card-body -->

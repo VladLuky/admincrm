@@ -15,10 +15,14 @@
 
                     </div><!-- /.col -->
                 </div><!-- /.row -->
-                @if (session('success'))
-                    <div class="alert alert-success" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <h4><i class="icon fa fa-check"></i>{{ session('success') }}</h4>
+                @if($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        @foreach($errors->all() as $error)
+                            {{ $error }}<br/>
+                        @endforeach
                     </div>
                 @endif
             </div><!-- /.container-fluid -->
@@ -71,7 +75,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Date of employment</label>
-                                <input type="text" class="form-control" name="date" placeholder="Enter date">
+                                <input type="date" class="form-control" name="date" placeholder="Enter date">
                             </div>
                         </div>
                         <!-- /.card-body -->

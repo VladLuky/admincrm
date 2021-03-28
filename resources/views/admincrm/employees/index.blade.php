@@ -13,7 +13,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <a href="{{ route('employees.create') }}" class="btn btn-block btn-primary" >
+                            <a href="{{ route('employees.create') }}" class="btn btn-block btn-primary">
                                 Add Employee
                             </a>
                         </ol>
@@ -29,6 +29,15 @@
                     <div class="alert alert-danger" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h5><i class="icon fas fa-ban"></i> {{ session('error') }}</h5>
+                    </div>
+                @endif
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 @endif
             </div><!-- /.container-fluid -->
@@ -58,18 +67,18 @@
                             </div>
                             <div class="col-4">
                                 <h5>Position</h5>
-                                <select class="form-control" name="pos_names" >
+                                <select class="form-control" name="pos_names">
                                     @if(empty($positions))
                                         <option value="Empty">Empty</option>
                                     @else
                                         <option></option>
                                         @foreach($positions as $position)
                                             <option type="text" value="{{ $position['name'] }}"
-                                            @if(isset($_GET['pos_names']))
-                                                @if($_GET['pos_names'] == $position['name'])
+                                                    @if(isset($_GET['pos_names']))
+                                                    @if($_GET['pos_names'] == $position['name'])
                                                     selected
                                                 @endif
-                                            @endif>{{ $position['name'] }}</option>
+                                                @endif>{{ $position['name'] }}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -81,7 +90,10 @@
                                         <p>Min:</p>
                                     </div>
                                     <div class="col">
-                                        <input name="min_data" type="date" >
+                                        <input name="min_data" type="date"
+                                               @if(isset($_GET['min_data']))
+                                               value="{{ $_GET['min_data'] }}"
+                                            @endif>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -89,7 +101,10 @@
                                         <p>Max:</p>
                                     </div>
                                     <div class="col">
-                                        <input name="max_data" type="date">
+                                        <input name="max_data" type="date"
+                                               @if(isset($_GET['max_data']))
+                                               value="{{ $_GET['max_data'] }}"
+                                            @endif>
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +122,7 @@
                             </div>
                             <div class="col-4">
                                 <h5>Email</h5>
-                                <input type="text" name="emails" class="form-control" placeholder=".col-4"
+                                <input type="text" name="emails" class="form-control" placeholder="Email"
                                        @if(isset($_GET['emails']))
                                        value="{{ $_GET['emails'] }}"
                                     @endif>
@@ -119,7 +134,10 @@
                                         <p>Min:</p>
                                     </div>
                                     <div class="col">
-                                        <input name="min_salary" type="number" min="0">
+                                        <input name="min_salary" type="number" min="0"
+                                               @if(isset($_GET['min_salary']))
+                                               value="{{ $_GET['min_salary'] }}"
+                                            @endif>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -127,7 +145,10 @@
                                         <p>Max:</p>
                                     </div>
                                     <div class="col">
-                                        <input name="max_salary" type="number" min="0">
+                                        <input name="max_salary" type="number" min="0"
+                                               @if(isset($_GET['max_salary']))
+                                               value="{{ $_GET['max_salary'] }}"
+                                            @endif>
                                     </div>
                                 </div>
                             </div>
@@ -146,10 +167,10 @@
                 <table class="table table-striped projects">
                     <thead>
                     <tr>
-                        <th >
+                        <th data-orderable="false">
                             Photo
                         </th>
-                        <th >
+                        <th>
                             Name
                         </th>
                         <th>
@@ -158,16 +179,16 @@
                         <th>
                             Date of Employment
                         </th>
-                        <th >
+                        <th>
                             Phone
                         </th>
-                        <th >
+                        <th>
                             Email
                         </th>
-                        <th >
+                        <th>
                             Salary
                         </th>
-                        <th style="width: 20%; text-align: center;">
+                        <th style="width: 20%; text-align: center;" data-orderable="false">
                             Action
                         </th>
                     </tr>
@@ -188,8 +209,8 @@
                             <td>
                                 {{ $emp['position'] }}
                             </td>
-                            <td >
-
+                            <td>
+                                {{ \Carbon\Carbon::parse($emp['date'])->format('d.m.Y') }}
                             </td>
                             <td>
                                 {{ $emp['phone'] }}
@@ -205,7 +226,8 @@
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                 </a>
-                                <button class="btn btn-danger btn-sm" data-emp_name="{{ $emp['name'] }}" data-catid="{{$emp->id}}" data-toggle="modal" data-target="#delete">
+                                <button class="btn btn-danger btn-sm" data-emp_name="{{ $emp['name'] }}"
+                                        data-catid="{{$emp->id}}" data-toggle="modal" data-target="#delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
